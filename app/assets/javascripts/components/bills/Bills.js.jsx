@@ -40,6 +40,17 @@ class Bills extends React.Component  {
       amount.value = null;
     });   
   }
+
+  deleteBill() {
+    let id = this.props.id;
+    $.ajax({
+      url: `/bills/${id}`,
+      type: 'DELETE',
+    }).done({
+      this.state.bills.findFilter
+    })
+
+  }
   
   render(){
     let bills = this.state.bills.map((bill) => {

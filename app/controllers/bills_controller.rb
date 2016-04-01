@@ -12,6 +12,16 @@ class BillsController < ApplicationController
     end
   end
 
+  def destroy
+     if Bill.find(params[:id]).destroy
+      render json: { id: params[:id].to_i }
+     else
+      render json: { errors: 'board cannot be deleted'}
+    end
+
+  end
+
+
   private
     def bill_params
       params.require(:bill).permit(:name, :amount)

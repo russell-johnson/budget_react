@@ -8,6 +8,7 @@ class Bill extends React.Component {
     return (
       <div>
         <p>{`name: ${this.props.name} amount: $${this.props.amount}`}</p>
+        <button onClick={() => deleteBill(this.props.id)} className='btn'>Delete</button>
       </div>
     )
   }
