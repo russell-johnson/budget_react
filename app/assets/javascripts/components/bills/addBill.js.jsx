@@ -1,10 +1,10 @@
-class PostBill extends React.Component {
+class addBill extends React.Component {
   constructor(props) {
     super(props);
-    this.postBill = this.postBill.bind(this);
+    this.addBill = this.addBill.bind(this);
   }
 
-  postBill(){
+  addBill(){
     let name = this.refs.name;
     let amount = this.refs.amount;
     e.prevenDefault();
@@ -14,7 +14,7 @@ class PostBill extends React.Component {
       data: { bill: {name: name.value, amount: amount.value}},
       dataType: 'JSON'
     }).done(bill => {
-      this.props.postBill(bill);
+      this.props.addBill(bill);
     }).fail(errrors => {
       console.log(errors);
     }).complete( () => {
@@ -24,10 +24,10 @@ class PostBill extends React.Component {
   }
 
   render() {
-    return() {
+    return(
       <div className = 'col s12'>
-        <p>A new bill<p>
-        <form onSubmit = {this.postBill}>
+        <p>A new bill</p>
+        <form onSubmit = {this.addBill()}>
           <p>Bill name</p>
           <input placeholder = "Name" ref = "name" required = {true} />
           <p>Bill Amount</p>
@@ -36,6 +36,6 @@ class PostBill extends React.Component {
           <button className = 'btn'>Add bill</button>
         </form>
       </div>
-    }
+    )
   }
 }

@@ -1,35 +1,78 @@
-class bills extends React.Component  {
+class Bills extends React.Component  {
   constructor(props) {
     super(props);
+    this.addBill = this.addBill.bind(this);
+    this.state = {bills: this.props.bills};
+
   }
 
-  render(){
+  showForm() {
     return(
+      <div className = 'col s12'>
+        <p>A new bill</p>
+        <form onSubmit={this.addBill}>
+          <p>Bill name</p>
+          <input placeholder = "Name" ref = "name" required = {true} />
+          <p>Bill Amount</p>
+          <input placeholder = "Amount" ref = "amount" required = {true} />
+          <br />
+          <button className = 'btn'>Add bill</button>
+        </form>
+      </div>
+    )
+  }
+
+  addBill(e) {
+    let name = this.refs.name;
+    let amount = this.refs.amount;
+    e.preventDefault();
+    $.ajax ({
+      url: '/bills',
+      type: 'POST',
+      data: { bill: {name: name.value, amount: amount.value}},
+      dataType: 'JSON'
+    }).done(data => {
+      this.setState({bills: [data, ...this.state.bills]});
+    }).fail(data => {
+      console.log(data);
+    }).complete( () => {
+      name.value = null;
+      amount.value = null;
+    });   
+  }
+  
+  render(){
+    let bills = this.state.bills.map((bill) => {
+     return(<Bill name = {bill.name} amount = {bill.amount} key = {`key-${bill.id}`}/> ); 
+
+    })
+
+    console.log(bills);
+    return(
+
+
       <div className='row'>
           <div className= 'col s12 green darken-5'>
-            <form className
-            <input className=''>
+            <form className = 'userFund'>
+              <input type='text' refs = 'userFund' required= {true} placeholder = 'Amount'/>
+            </form>
           </div>
-
           <div className = 'container'>
-            forms and table for bill pay
-            <div className = 'forms for bills in  rows' >
-
+            <div className = 'billContainer' >
+              <h6>Bills</h6>
               <div className = 'row'>
-                <div className = 'bill price and name'>
-                {this.postBill()}
-                </div>
-              </div>
+                {bills}
 
+              </div>
+              {this.showForm()}
               <div className = 'row'>
-                <button onClick = 'submit' className ='btn blue'>Total</button>
-                <button onClick = 'create' className = 'btn green'>New Bill</button>
+                <button className ='btn blue'>Total</button>
+                <button className = 'btn green'>New Bill</button>
               </div>
-
             </div>
 
             <div className = 'col s12 blue darken-5'>
-              in here goes the call for the math between the user money and the bill total
+              <p>in here goes the call for the math between the user money and the bill total</p>
             </div>
           </div>
 
